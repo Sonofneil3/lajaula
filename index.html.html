@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Jaula — Ropa MMA Chile</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #D42B1A;
+    --red-bright: #FF3520;
+    --orange: #FF6A2B;
+    --bg: #080808;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --text: #F0EDE8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--red); color: white;
+    padding: 0.5rem 1.2rem; text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 600; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--red-bright); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(212,43,26,0.12) 0%, transparent 70%),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.012) 40px,
+        rgba(255,255,255,0.012) 41px
+      );
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--red); margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  .hero-tag::before {
+    content: ''; width: 28px; height: 2px; background: var(--red);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title .line2 { color: var(--red); }
+  .hero-sub {
+    font-size: 1.15rem; color: var(--muted);
+    max-width: 480px; line-height: 1.6;
+    margin-bottom: 2.5rem; font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red); color: white;
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 700; transition: all 0.2s; font-family: 'Barlow Condensed', sans-serif;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+  .btn-primary:hover { background: var(--red-bright); transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 600; border: 1px solid var(--border);
+    transition: all 0.2s; font-family: 'Barlow Condensed', sans-serif;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.3); }
+
+  .hero-stats {
+    position: absolute; right: 2rem; bottom: 3rem;
+    display: flex; gap: 3rem; z-index: 1;
+  }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--text); letter-spacing: 2px;
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+
+  /* SEPARATOR */
+  .sep {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+  }
+
+  /* PRODUCTS */
+  .section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-header { margin-bottom: 3rem; }
+  .section-tag {
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--red); font-weight: 600; margin-bottom: 0.75rem;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 2px; line-height: 1;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+  .product-card {
+    background: var(--bg2);
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .product-card:hover { transform: scale(1.01); }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .product-img {
+    width: 100%; aspect-ratio: 3/4;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem; letter-spacing: 3px;
+    position: relative; overflow: hidden;
+  }
+  .product-img-1 {
+    background: linear-gradient(145deg, #1a0a08 0%, #2d0f0a 100%);
+    color: rgba(212,43,26,0.6);
+  }
+  .product-img-2 {
+    background: linear-gradient(145deg, #080a12 0%, #0d1220 100%);
+    color: rgba(255,255,255,0.08);
+  }
+  .product-img-3 {
+    background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+    color: rgba(255,106,43,0.4);
+  }
+
+  /* Fake shirt mockup shapes */
+  .shirt-mockup {
+    width: 160px; height: 160px;
+    position: relative;
+  }
+  .shirt-shape {
+    position: absolute; inset: 0;
+    border: 2px solid currentColor;
+    clip-path: polygon(30% 0%, 70% 0%, 85% 15%, 100% 10%, 100% 35%, 85% 35%, 85% 100%, 15% 100%, 15% 35%, 0 35%, 0 10%, 15% 15%);
+  }
+  .shirt-text {
+    position: absolute; top: 55%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem; text-align: center; line-height: 1;
+    color: var(--text);
+    text-shadow: 0 0 40px currentColor;
+  }
+  .shirt-text.sm { font-size: 1.1rem; }
+
+  .product-overlay {
+    position: absolute; inset: 0;
+    background: rgba(212,43,26,0.15);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .overlay-btn {
+    background: var(--red); color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 700; font-family: 'Barlow Condensed', sans-serif;
+    border: none; cursor: pointer; text-decoration: none;
+  }
+
+  .product-info { padding: 1.25rem; }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 2px;
+    margin-bottom: 0.25rem;
+  }
+  .product-desc { font-size: 0.8rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 0.75rem; }
+  .product-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: var(--red); letter-spacing: 2px;
+  }
+  .price-old {
+    font-size: 0.9rem; color: var(--muted);
+    text-decoration: line-through; margin-left: 8px;
+    font-family: 'Barlow Condensed';
+  }
+
+  /* HOW IT WORKS */
+  .how-section {
+    background: var(--bg2);
+    padding: 6rem 2rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .how-inner { max-width: 1200px; margin: 0 auto; }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    margin-top: 3rem;
+  }
+  .step-item {
+    padding: 2rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .step-item:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; color: rgba(212,43,26,0.15);
+    line-height: 1; margin-bottom: 1rem;
+    letter-spacing: 2px;
+  }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+  .step-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(212,43,26,0.1) 0%, transparent 70%);
+  }
+  .cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: 3px; line-height: 0.95;
+    margin-bottom: 1.5rem;
+  }
+  .cta-sub { font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; font-weight: 300; letter-spacing: 0.5px; }
+
+  /* CONTACT BAR */
+  .contact-bar {
+    background: var(--red);
+    padding: 1.5rem 2rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 3rem; flex-wrap: wrap;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+    color: white; text-decoration: none; font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .contact-item:hover { opacity: 0.8; }
+  .contact-icon { font-size: 1.1rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 2px;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy { font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag { animation: fadeUp 0.6s ease forwards; }
+  .hero-title { animation: fadeUp 0.7s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.7s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.7s 0.3s ease both; }
+
+  /* BADGE */
+  .badge-new {
+    display: inline-block;
+    background: var(--orange); color: #080808;
+    font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 700; padding: 2px 8px;
+    vertical-align: middle; margin-left: 8px;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .hero-stats { position: static; flex-direction: row; justify-content: flex-start; margin-top: 3rem; gap: 2rem; }
+    .stat-item { text-align: left; }
+    .step-item { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LA <span>JAULA</span></div>
+  <ul class="nav-links">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#como-funciona">Envíos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#productos" class="nav-cta">Comprar</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Ropa MMA · Chile · LATAM</div>
+    <h1 class="hero-title">
+      VISTE<br>
+      <span class="line2">COMO</span><br>
+      PELEA
+    </h1>
+    <p class="hero-sub">Diseños exclusivos para quienes viven la cultura de las artes marciales. Calidad premium, despacho a todo Chile y LATAM.</p>
+    <div class="hero-actions">
+      <a href="#productos" class="btn-primary">Ver colección</a>
+      <a href="#como-funciona" class="btn-secondary">Cómo funciona</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">48H</div>
+      <div class="stat-label">Despacho</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Original</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">CL+</div>
+      <div class="stat-label">LATAM</div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- PRODUCTS -->
+<section id="productos">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag">Colección 01</span>
+      <h2 class="section-title">DISEÑOS<br>EXCLUSIVOS</h2>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img product-img-1">
+          <div class="shirt-mockup">
+            <div class="shirt-shape"></div>
+            <div class="shirt-text">FIGHTER<br>MINDSET</div>
+          </div>
+        </div>
+        <div class="product-overlay">
+          <a href="#contacto" class="overlay-btn">Pedir ahora</a>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Fighter Mindset</div>
+          <div class="product-desc">Polera oversize · Algodón 280g</div>
+          <div class="product-price">$18.990 <span class="price-old">$24.990</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img product-img-2">
+          <div class="shirt-mockup">
+            <div class="shirt-shape"></div>
+            <div class="shirt-text sm">SUBMIT<br>OR<br>SUBMIT</div>
+          </div>
+        </div>
+        <div class="product-overlay">
+          <a href="#contacto" class="overlay-btn">Pedir ahora</a>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Submit Or Submit <span class="badge-new">nuevo</span></div>
+          <div class="product-desc">Polera slim · Algodón premium</div>
+          <div class="product-price">$17.990</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img product-img-3">
+          <div class="shirt-mockup">
+            <div class="shirt-shape"></div>
+            <div class="shirt-text">BLOOD<br>SWEAT<br>TAP</div>
+          </div>
+        </div>
+        <div class="product-overlay">
+          <a href="#contacto" class="overlay-btn">Pedir ahora</a>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Blood Sweat Tap</div>
+          <div class="product-desc">Polera oversize · Estampado en relieve</div>
+          <div class="product-price">$19.990</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="como-funciona" class="how-section">
+  <div class="how-inner">
+    <div class="section-header">
+      <span class="section-tag">Proceso</span>
+      <h2 class="section-title">SIMPLE<br>Y RÁPIDO</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-title">Elige tu diseño</div>
+        <div class="step-desc">Selecciona el modelo, talla y color que quieras de nuestra colección.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-title">Contáctanos</div>
+        <div class="step-desc">Escríbenos por Instagram o WhatsApp con tu pedido y dirección de despacho.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-title">Paga seguro</div>
+        <div class="step-desc">Transferencia, Mercado Pago o Webpay. Confirmación inmediata al recibir el pago.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-title">Recíbela en casa</div>
+        <div class="step-desc">Despachamos en 48 horas a todo Chile. LATAM disponible por Correos o Starken internacional.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contacto" class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-content">
+    <h2 class="cta-title">¿LISTO PARA<br>VESTIR DIFERENTE?</h2>
+    <p class="cta-sub">Escríbenos con tu pedido y lo tenemos en tus manos en menos de 48 horas.</p>
+    <a href="https://wa.me/569XXXXXXXX" class="btn-primary">Pedir por WhatsApp</a>
+  </div>
+</section>
+
+<div class="contact-bar">
+  <a href="https://instagram.com/lajaula.cl" class="contact-item">
+    <span class="contact-icon">📸</span> @lajaula.cl
+  </a>
+  <a href="https://wa.me/569XXXXXXXX" class="contact-item">
+    <span class="contact-icon">💬</span> WhatsApp pedidos
+  </a>
+  <a href="mailto:pedidos@lajaula.cl" class="contact-item">
+    <span class="contact-icon">✉</span> pedidos@lajaula.cl
+  </a>
+</div>
+
+<footer>
+  <div class="footer-logo">LA <span>JAULA</span></div>
+  <div class="footer-copy">© 2025 La Jaula · Concepción, Chile · Ropa MMA Latinoamérica</div>
+</footer>
+
+</body>
+</html>
